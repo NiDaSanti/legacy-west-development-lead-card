@@ -1,19 +1,29 @@
-// Minimal local Express server for development.
-// Serves the same logic as api/create-lead.js so the frontend's
-// fetch('/api/create-lead') call works while running `npm run dev`.
+// Minimal Express server for the Close CRM lead-submission API.
+// In development, this runs locally on port 3001 and Vite proxies /api requests to it.
+// In production, this is deployed to Render as its own service, while the
+// frontend (built by Vite) is deployed separately to Netlify.
 //
-// This mirrors what Render (or Netlify, with slight changes) will run in production.
-//
-// Required environment variable (see .env):
-//   CLOSE_API_KEY - your Close API key (Close > Settings > API Keys)
+// Required environment variables:
+//   CLOSE_API_KEY   - your Close API key (Close > Settings > API Keys)
+//   ALLOWED_ORIGIN  - the deployed frontend's URL (e.g. https://legacy-west.netlify.app)
+//                     used to restrict CORS in production. Not required in development.
 
 import 'dotenv/config'
 import express from 'express'
+import cors from 'cors'
 
 const app = express()
 const PORT = process.env.PORT || 3001
+const ALLOWED_ORIGIN = process.env.ALLOWED_ORIGIN
 
+app.use(cors({
+  origin: ALLOWED_ORIGIN || true
+}))
 app.use(express.json())
+
+app.get('/health', (req, res) => {
+  res.status(200).json({ status: 'ok' })
+})
 
 app.post('/api/create-lead', async (req, res) => {
   const apiKey = process.env.CLOSE_API_KEY
@@ -98,5 +108,10 @@ app.post('/api/create-lead', async (req, res) => {
 })
 
 app.listen(PORT, () => {
-  console.log(`Local API server running at http://localhost:${PORT}`)
+  console.log(`API server running on port ${PORT}`)
+  if (ALLOWED_ORIGIN) {
+    console.log(`CORS restricted to origin: ${ALLOWED_ORIGIN}`)
+  } else {
+    console.log('CORS is open to all origins (set ALLOWED_ORIGIN in production)')
+  }
 })

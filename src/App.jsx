@@ -111,7 +111,8 @@ function App() {
     setErrors({})
     setStatus({ submitting: true, error: null, success: false })
     try {
-      const response = await fetch('/api/create-lead', {
+      const apiBaseUrl = import.meta.env.VITE_API_URL || ''
+      const response = await fetch(`${apiBaseUrl}/api/create-lead`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)
