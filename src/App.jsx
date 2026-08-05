@@ -178,7 +178,7 @@ function App() {
           }}
         >
           <Typography variant="h6" align="center" sx={{ fontWeight: 700, letterSpacing: '0.02em' }}>
-            Legacy West
+            Legacy West Development
           </Typography>
           <Typography variant="body2" align="center" sx={{ opacity: 0.85, mt: 0.5 }}>
             177 E. Colorado Blvd, Suite 200, Pasadena, CA 91105 &nbsp;|&nbsp; (626) 720-3091 &nbsp;|&nbsp; CSLB #1148175
@@ -364,7 +364,7 @@ function App() {
         }}
       >
         <Typography variant="caption">
-          &copy; {new Date().getFullYear()} Legacy West. All rights reserved.
+          &copy; {new Date().getFullYear()} Legacy West Development. All rights reserved.
         </Typography>
       </Box>
     </Box>
