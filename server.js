@@ -11,6 +11,7 @@
 import 'dotenv/config'
 import express from 'express'
 import cors from 'cors'
+import rateLimit from 'express-rate-limit'
 
 const app = express()
 const PORT = process.env.PORT || 3001
@@ -21,11 +22,26 @@ app.use(cors({
 }))
 app.use(express.json())
 
+// Render sits behind a proxy (Cloudflare/Render's load balancer). This tells
+// express-rate-limit to trust the X-Forwarded-For header so it can correctly
+// identify each visitor's real IP instead of rate-limiting the proxy itself.
+app.set('trust proxy', 1)
+
+// Limit lead submissions to 5 per 10 minutes per IP address.
+// This protects against bots/scripts spamming fake leads into Close CRM.
+const createLeadLimiter = rateLimit({
+  windowMs: 10 * 60 * 1000, // 10 minutes
+  max: 5,
+  standardHeaders: true, // return rate limit info in RateLimit-* headers
+  legacyHeaders: false,
+  message: { error: 'Too many submissions from this device. Please try again later.' }
+})
+
 app.get('/health', (req, res) => {
   res.status(200).json({ status: 'ok' })
 })
 
-app.post('/api/create-lead', async (req, res) => {
+app.post('/api/create-lead', createLeadLimiter, async (req, res) => {
   const apiKey = process.env.CLOSE_API_KEY
   if (!apiKey) {
     console.error('CLOSE_API_KEY environment variable is not set')
