@@ -49,6 +49,7 @@ app.post('/api/create-lead', createLeadLimiter, async (req, res) => {
   }
 
   const {
+    submittedBy = '',
     name = '',
     phone = '',
     email = '',
@@ -68,6 +69,7 @@ app.post('/api/create-lead', createLeadLimiter, async (req, res) => {
   }
 
   const questionSummary = [
+    submittedBy ? `Submitted by: ${submittedBy}` : null,
     `Increase size of home: ${increaseSize || 'n/a'}`,
     `Started plans/engineering: ${startedPlans || 'n/a'}`,
     `Add ADU: ${addADU || 'n/a'}`,

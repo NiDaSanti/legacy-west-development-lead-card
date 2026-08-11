@@ -13,19 +13,31 @@ import {
   Button,
   Alert,
   Stack,
-  Divider
+  Divider,
+  MenuItem
 } from '@mui/material'
 import PersonOutlineIcon from '@mui/icons-material/PersonOutlineOutlined'
 import HomeWorkOutlinedIcon from '@mui/icons-material/HomeWorkOutlined'
 import BuildOutlinedIcon from '@mui/icons-material/BuildOutlined'
 import NotesOutlinedIcon from '@mui/icons-material/NotesOutlined'
 import SendRoundedIcon from '@mui/icons-material/SendRounded'
+import BadgeOutlinedIcon from '@mui/icons-material/BadgeOutlined'
 
 import './App.css'
+
+const TEAM_MEMBERS = [
+  'Nicholas Santiago',
+  'George Limbrick',
+  'Aaron Carson',
+  'Quinton Jones'
+]
+
+const SUBMITTED_BY_STORAGE_KEY = 'lwd_submitted_by'
 
 function App() {
 
   const [formData, setFormData] = useState({
+    submittedBy: localStorage.getItem(SUBMITTED_BY_STORAGE_KEY) || '',
     name: '',
     phone: '',
     email: '',
@@ -53,6 +65,10 @@ function App() {
 
   const validate = (data) => {
     const newErrors = {}
+
+    if (!data.submittedBy.trim()) {
+      newErrors.submittedBy = 'Please select who is submitting this lead'
+    }
 
     if (!data.name.trim()) {
       newErrors.name = 'Name is required'
@@ -129,7 +145,9 @@ function App() {
       }
 
       setStatus({ submitting: false, error: null, success: true })
+      localStorage.setItem(SUBMITTED_BY_STORAGE_KEY, formData.submittedBy)
       setFormData({
+        submittedBy: formData.submittedBy,
         name: '',
         phone: '',
         email: '',
@@ -241,6 +259,30 @@ function App() {
 
           <Box component="form" onSubmit={handleSubmit} noValidate>
             <Stack spacing={4}>
+
+              <Box>
+                {sectionHeading(BadgeOutlinedIcon, 'Submitted By')}
+                <TextField
+                  select
+                  label="Team Member"
+                  name="submittedBy"
+                  value={formData.submittedBy}
+                  onChange={handleChange}
+                  error={Boolean(errors.submittedBy)}
+                  helperText={errors.submittedBy}
+                  required
+                  fullWidth
+                  sx={{ maxWidth: { sm: 360 } }}
+                >
+                  {TEAM_MEMBERS.map((member) => (
+                    <MenuItem key={member} value={member}>
+                      {member}
+                    </MenuItem>
+                  ))}
+                </TextField>
+              </Box>
+
+              <Divider />
 
               <Box>
                 {sectionHeading(PersonOutlineIcon, 'Contact Information')}
