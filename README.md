@@ -4,6 +4,8 @@ A lead-capture web form for Legacy West Development that submits directly into *
 
 Live: frontend on Netlify, API on Render (see [Deployment](#deployment) for URLs/config).
 
+> 👋 **Not a developer?** See [`OWNER_GUIDE.md`](./OWNER_GUIDE.md) for a plain-language explanation of how this system works.
+
 ---
 
 ## Table of Contents
