@@ -15,6 +15,11 @@ import {
   Stack,
   Divider
 } from '@mui/material'
+import PersonOutlineIcon from '@mui/icons-material/PersonOutlineOutlined'
+import HomeWorkOutlinedIcon from '@mui/icons-material/HomeWorkOutlined'
+import BuildOutlinedIcon from '@mui/icons-material/BuildOutlined'
+import NotesOutlinedIcon from '@mui/icons-material/NotesOutlined'
+import SendRoundedIcon from '@mui/icons-material/SendRounded'
 
 import './App.css'
 
@@ -158,16 +163,37 @@ function App() {
     </FormControl>
   )
 
+  const sectionHeading = (Icon, label) => (
+    <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 2 }}>
+      <Box
+        sx={{
+          width: 32,
+          height: 32,
+          borderRadius: '8px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          bgcolor: 'rgba(13,33,73,0.06)',
+          color: 'primary.main'
+        }}
+      >
+        <Icon fontSize="small" />
+      </Box>
+      <Typography variant="subtitle1">{label}</Typography>
+    </Stack>
+  )
+
   return (
     <Box sx={{ minHeight: '100vh', bgcolor: 'background.default', display: 'flex', flexDirection: 'column' }}>
       <Box
         className="card-header"
         sx={{
-          bgcolor: 'primary.main',
+          background: 'linear-gradient(135deg, #0d2149 0%, #16305e 60%, #1c3568 100%)',
           color: 'primary.contrastText',
-          py: { xs: 2.5, sm: 3 },
+          py: { xs: 3, sm: 4 },
           borderBottom: '3px solid',
-          borderColor: 'secondary.main'
+          borderColor: 'secondary.main',
+          boxShadow: '0 4px 20px rgba(13,33,73,0.25)'
         }}
       >
         <Box
@@ -177,7 +203,7 @@ function App() {
             mx: 'auto'
           }}
         >
-          <Typography variant="h6" align="center" sx={{ fontWeight: 700, letterSpacing: '0.02em' }}>
+          <Typography variant="h6" align="center" sx={{ fontWeight: 800, letterSpacing: '0.03em' }}>
             Legacy West Development
           </Typography>
           <Typography variant="body2" align="center" sx={{ opacity: 0.85, mt: 0.5 }}>
@@ -196,7 +222,7 @@ function App() {
         }}
       >
         <Paper
-          elevation={0}
+          elevation={4}
           sx={{
             p: { xs: 3, sm: 5 },
             border: '1px solid',
@@ -217,9 +243,7 @@ function App() {
             <Stack spacing={4}>
 
               <Box>
-                <Typography variant="subtitle1" gutterBottom>
-                  Contact Information
-                </Typography>
+                {sectionHeading(PersonOutlineIcon, 'Contact Information')}
                 <Stack spacing={2.5}>
                   <TextField
                     label="Name"
@@ -260,9 +284,7 @@ function App() {
               <Divider />
 
               <Box>
-                <Typography variant="subtitle1" gutterBottom>
-                  Property Address
-                </Typography>
+                {sectionHeading(HomeWorkOutlinedIcon, 'Property Address')}
                 <Stack spacing={2.5}>
                   <TextField
                     label="Street Address"
@@ -312,9 +334,7 @@ function App() {
               <Divider />
 
               <Box>
-                <Typography variant="subtitle1" gutterBottom>
-                  Project Details
-                </Typography>
+                {sectionHeading(BuildOutlinedIcon, 'Project Details')}
                 <Stack spacing={2.5}>
                   {radioQuestion('Do you want to increase the size of your old home?', 'increaseSize')}
                   {radioQuestion('Have you started Plans and Engineering?', 'startedPlans')}
@@ -325,21 +345,25 @@ function App() {
 
               <Divider />
 
-              <TextField
-                label="Additional Notes"
-                name="notes"
-                value={formData.notes}
-                onChange={handleChange}
-                multiline
-                minRows={3}
-                fullWidth
-              />
+              <Box>
+                {sectionHeading(NotesOutlinedIcon, 'Additional Notes')}
+                <TextField
+                  label="Additional Notes"
+                  name="notes"
+                  value={formData.notes}
+                  onChange={handleChange}
+                  multiline
+                  minRows={3}
+                  fullWidth
+                />
+              </Box>
 
               <Button
                 type="submit"
                 variant="contained"
                 size="large"
                 disabled={status.submitting}
+                endIcon={!status.submitting && <SendRoundedIcon />}
                 sx={{ py: 1.5, alignSelf: { xs: 'stretch', sm: 'flex-start' }, px: 5 }}
               >
                 {status.submitting ? 'Submitting...' : 'Submit'}
