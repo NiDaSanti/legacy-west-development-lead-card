@@ -22,6 +22,7 @@ import BuildOutlinedIcon from '@mui/icons-material/BuildOutlined'
 import NotesOutlinedIcon from '@mui/icons-material/NotesOutlined'
 import SendRoundedIcon from '@mui/icons-material/SendRounded'
 import BadgeOutlinedIcon from '@mui/icons-material/BadgeOutlined'
+import LocalFireDepartmentOutlinedIcon from '@mui/icons-material/LocalFireDepartmentOutlined'
 
 import './App.css'
 
@@ -49,6 +50,9 @@ function App() {
     startedPlans: '',
     addADU: '',
     addGenerator: '',
+    fireAffected: '',
+    consultedOnOptions: '',
+    planningToRebuild: '',
     notes: ''
   })
 
@@ -116,6 +120,16 @@ function App() {
       newErrors.addGenerator = 'Please select yes or no'
     }
 
+    if (!data.fireAffected) {
+      newErrors.fireAffected = 'Please select yes or no'
+    }
+    if (!data.consultedOnOptions) {
+      newErrors.consultedOnOptions = 'Please select yes or no'
+    }
+    if (!data.planningToRebuild) {
+      newErrors.planningToRebuild = 'Please select yes or no'
+    }
+
     return newErrors
   }
 
@@ -159,6 +173,9 @@ function App() {
         startedPlans: '',
         addADU: '',
         addGenerator: '',
+        fireAffected: '',
+        consultedOnOptions: '',
+        planningToRebuild: '',
         notes: ''
       })
     } catch (err) {
@@ -382,6 +399,17 @@ function App() {
                   {radioQuestion('Have you started Plans and Engineering?', 'startedPlans')}
                   {radioQuestion('Would you like to add an ADU to your property?', 'addADU')}
                   {radioQuestion('Would you like to add a Back up Generator to your property?', 'addGenerator')}
+                </Stack>
+              </Box>
+
+              <Divider />
+
+              <Box>
+                {sectionHeading(LocalFireDepartmentOutlinedIcon, 'Altadena Fire Recovery')}
+                <Stack spacing={2.5}>
+                  {radioQuestion('Was your property affected by the Altadena fires?', 'fireAffected')}
+                  {radioQuestion('Has anyone taken the time to walk you through your rebuilding options?', 'consultedOnOptions')}
+                  {radioQuestion('Are you hoping to rebuild and restore your home in Altadena?', 'planningToRebuild')}
                 </Stack>
               </Box>
 

@@ -61,6 +61,9 @@ app.post('/api/create-lead', createLeadLimiter, async (req, res) => {
     startedPlans = '',
     addADU = '',
     addGenerator = '',
+    fireAffected = '',
+    consultedOnOptions = '',
+    planningToRebuild = '',
     notes = ''
   } = req.body || {}
 
@@ -74,6 +77,9 @@ app.post('/api/create-lead', createLeadLimiter, async (req, res) => {
     `Started plans/engineering: ${startedPlans || 'n/a'}`,
     `Add ADU: ${addADU || 'n/a'}`,
     `Add backup generator: ${addGenerator || 'n/a'}`,
+    `Affected by Altadena fires: ${fireAffected || 'n/a'}`,
+    `Consulted on rebuilding options: ${consultedOnOptions || 'n/a'}`,
+    `Planning to rebuild in Altadena: ${planningToRebuild || 'n/a'}`,
     notes ? `Notes: ${notes}` : null
   ].filter(Boolean).join('\n')
 
