@@ -10,6 +10,7 @@ import {
   RadioGroup,
   FormControlLabel,
   Radio,
+  Checkbox,
   Button,
   Alert,
   Stack,
@@ -42,6 +43,7 @@ function App() {
     name: '',
     phone: '',
     email: '',
+    smsConsent: false,
     addressStreet: '',
     addressCity: '',
     addressState: '',
@@ -60,8 +62,8 @@ function App() {
   const [errors, setErrors] = useState({})
 
   const handleChange = (e) => {
-    const {name, value} = e.target
-    setFormData(prev => ({...prev, [name]: value}))
+    const { name, value, type, checked } = e.target
+    setFormData(prev => ({ ...prev, [name]: type === 'checkbox' ? checked : value }))
     if (errors[name]) {
       setErrors(prev => ({ ...prev, [name]: undefined }))
     }
@@ -88,6 +90,10 @@ function App() {
       newErrors.email = 'Email is required'
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email.trim())) {
       newErrors.email = 'Enter a valid email address'
+    }
+
+    if (!data.smsConsent) {
+      newErrors.smsConsent = 'SMS consent is required to submit this form'
     }
 
     if (!data.addressStreet.trim()) {
@@ -165,6 +171,7 @@ function App() {
         name: '',
         phone: '',
         email: '',
+        smsConsent: false,
         addressStreet: '',
         addressCity: '',
         addressState: '',
@@ -337,6 +344,34 @@ function App() {
                       fullWidth
                     />
                   </Stack>
+
+                  <FormControl error={Boolean(errors.smsConsent)} required>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          name="smsConsent"
+                          checked={formData.smsConsent}
+                          onChange={handleChange}
+                        />
+                      }
+                      label={
+                        <Typography variant="body2" color="text.secondary">
+                          I consent to receive text messages from Legacy West Development regarding my project.
+                          Message frequency varies. Message and data rates may apply. Reply STOP to opt out at any
+                          time. View our{' '}
+                          <a
+                            href="https://legacywestdevelopment.com/privacy"
+                            target="_blank"
+                            rel="noreferrer"
+                            style={{ color: 'inherit' }}
+                          >
+                            Privacy Policy
+                          </a>.
+                        </Typography>
+                      }
+                    />
+                    {errors.smsConsent && <FormHelperText>{errors.smsConsent}</FormHelperText>}
+                  </FormControl>
                 </Stack>
               </Box>
 

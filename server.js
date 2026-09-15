@@ -53,6 +53,7 @@ app.post('/api/create-lead', createLeadLimiter, async (req, res) => {
     name = '',
     phone = '',
     email = '',
+    smsConsent = false,
     addressStreet = '',
     addressCity = '',
     addressState = '',
@@ -71,8 +72,15 @@ app.post('/api/create-lead', createLeadLimiter, async (req, res) => {
     return res.status(400).json({ error: 'At least a name, phone, or email is required' })
   }
 
+  if (!smsConsent) {
+    return res.status(400).json({ error: 'SMS consent is required' })
+  }
+
+  const consentTimestamp = new Date().toISOString()
+
   const questionSummary = [
     submittedBy ? `Submitted by: ${submittedBy}` : null,
+    `SMS consent: given (webform checkbox, ${consentTimestamp})`,
     `Increase size of home: ${increaseSize || 'n/a'}`,
     `Started plans/engineering: ${startedPlans || 'n/a'}`,
     `Add ADU: ${addADU || 'n/a'}`,
