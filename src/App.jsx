@@ -245,10 +245,18 @@ function App() {
             mx: 'auto'
           }}
         >
-          <Typography variant="h6" align="center" sx={{ fontWeight: 800, letterSpacing: '0.03em' }}>
-            Legacy West Development
-          </Typography>
-          <Typography variant="body2" align="center" sx={{ opacity: 0.85, mt: 0.5 }}>
+          <Box
+            component="img"
+            src="/lwd-logo.webp"
+            alt="Legacy West Development"
+            sx={{
+              display: 'block',
+              mx: 'auto',
+              height: { xs: 56, sm: 72 },
+              width: 'auto'
+            }}
+          />
+          <Typography variant="body2" align="center" sx={{ opacity: 0.85, mt: 1 }}>
             177 E. Colorado Blvd, Suite 200, Pasadena, CA 91105 &nbsp;|&nbsp; (626) 720-3091 &nbsp;|&nbsp; CSLB #1148175
           </Typography>
         </Box>

@@ -16,6 +16,7 @@ Live: frontend on Netlify, API on Render (see [Deployment](#deployment) for URLs
 - [Local Development](#local-development)
 - [Environment Variables](#environment-variables)
 - [Form Fields & Validation](#form-fields--validation)
+- [SMS/Text Consent Compliance](#smstext-consent-compliance)
 - [Close CRM Integration](#close-crm-integration)
 - [Security](#security)
 - [Deployment](#deployment)
@@ -139,12 +140,39 @@ All fields are validated **client-side** (`validate()` in `App.jsx`) before subm
 | Section | Fields | Notes |
 |---|---|---|
 | Submitted By | Team member (dropdown) | Required. Remembered in `localStorage` for future visits. Recorded in the lead's description in Close so it's clear who logged each lead. |
-| Contact Information | Name, Phone, Email | Phone validated via regex (`7–20` digits/symbols); email validated via standard pattern. |
+| Contact Information | Name, Phone, Email, SMS Consent (checkbox) | Phone validated via regex (`7–20` digits/symbols); email validated via standard pattern. SMS consent checkbox is required — see [SMS/Text Consent Compliance](#smstext-consent-compliance) below. |
 | Property Address | Street, City, State, Zip | State must be a 2-letter code; zip validated as `12345` or `12345-6789`. |
 | Project Details | 4 yes/no radio questions | Increase home size, started plans/engineering, add ADU, add backup generator. |
+| Altadena Fire Recovery | 3 yes/no radio questions | Affected by fires, consulted on rebuilding options, planning to rebuild. |
 | Notes | Free text | Optional. |
 
 > **Note:** Validation currently exists client-side only. See [Scaling & Future Work](#scaling--future-work) for hardening plans.
+
+---
+
+## SMS/Text Consent Compliance
+
+Since the form collects phone numbers with intent to text leads, it includes a **required SMS consent checkbox** to comply with TCPA/10DLC carrier requirements for webform opt-in (as opposed to verbal opt-in, which requires reading a disclosure script out loud instead).
+
+**Where it lives:**
+- UI: `src/App.jsx` — a required `Checkbox` in the Contact Information section, right after Phone/Email
+- Validation: enforced **both** client-side (`validate()` in `App.jsx`) and server-side (`server.js`) — the API will reject a submission with `smsConsent: false` even if called directly, bypassing the form
+- Audit trail: every lead's description in Close includes a line like:
+  ```
+  SMS consent: given (webform checkbox, 2026-09-15T22:51:24.754Z)
+  ```
+  This timestamp is generated server-side (`server.js`) at the moment the lead is created, so there's a permanent record of when consent was captured for every lead.
+
+**The checkbox label includes all 5 required disclosure points:**
+1. Opt-in confirmation ("I consent to receive text messages...")
+2. Message frequency varies
+3. Message and data rates may apply
+4. Reply STOP to opt out at any time
+5. A link to the Privacy Policy
+
+⚠️ **Action item:** The Privacy Policy link currently points to a placeholder URL (`https://legacywestdevelopment.com/privacy`) in `src/App.jsx`. **Confirm this is correct or update it** before relying on this for compliance — an incorrect/broken privacy policy link could itself be a compliance issue.
+
+If Close's US Compliance settings (`Settings → US Compliance` in the Close dashboard) are ever changed from "Webform" back to "Verbally," this checkbox approach would need to be reconsidered, since verbal consent requires the disclosure to be read aloud by staff rather than self-checked by the customer.
 
 ---
 
@@ -155,7 +183,7 @@ All fields are validated **client-side** (`validate()` in `App.jsx`) before subm
 - `name` → lead name (falls back to street address, then a generic label)
 - `contacts[0]` → one contact with phone (`type: mobile`) and email (`type: office`)
 - `addresses[0]` → full structured address (`address_1`, `city`, `state`, `zipcode`, `country: 'US'`)
-- `description` → a plain-text summary combining "Submitted by," the 4 yes/no answers, and any notes
+- `description` → a plain-text summary combining "Submitted by," SMS consent + timestamp, the yes/no answers, and any notes
 
 **Auth:** Close uses HTTP Basic Auth with the API key as the username and an empty password:
 ```js
