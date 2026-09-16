@@ -15,9 +15,9 @@ const theme = createTheme({
       contrastText: '#ffffff'
     },
     secondary: {
-      main: '#b08d57',
-      light: '#c8a878',
-      dark: '#8c6f42'
+      main: '#4e79e1',
+      light: '#7a9aea',
+      dark: '#3a5cb0'
     },
     background: {
       default: '#f0f2f6',
@@ -84,7 +84,7 @@ const theme = createTheme({
           '& .MuiOutlinedInput-root': {
             transition: 'box-shadow 0.2s ease',
             '&.Mui-focused': {
-              boxShadow: '0 0 0 3px rgba(176,141,87,0.18)'
+              boxShadow: '0 0 0 3px rgba(78,121,225,0.18)'
             }
           }
         }

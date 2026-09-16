@@ -230,12 +230,12 @@ function App() {
       <Box
         className="card-header"
         sx={{
-          background: 'linear-gradient(135deg, #0d2149 0%, #16305e 60%, #1c3568 100%)',
-          color: 'primary.contrastText',
+          bgcolor: '#ffffff',
+          color: 'text.primary',
           py: { xs: 3, sm: 4 },
           borderBottom: '3px solid',
           borderColor: 'secondary.main',
-          boxShadow: '0 4px 20px rgba(13,33,73,0.25)'
+          boxShadow: '0 4px 20px rgba(13,33,73,0.10)'
         }}
       >
         <Box
@@ -256,7 +256,7 @@ function App() {
               width: 'auto'
             }}
           />
-          <Typography variant="body2" align="center" sx={{ opacity: 0.85, mt: 1 }}>
+          <Typography variant="body2" align="center" color="text.secondary" sx={{ mt: 1 }}>
             177 E. Colorado Blvd, Suite 200, Pasadena, CA 91105 &nbsp;|&nbsp; (626) 720-3091 &nbsp;|&nbsp; CSLB #1148175
           </Typography>
         </Box>
