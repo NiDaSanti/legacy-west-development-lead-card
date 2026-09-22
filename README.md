@@ -251,6 +251,8 @@ This project is intentionally small today (single shared API key, one static for
 - **TypeScript** — the codebase is small enough that migrating `src/` to TypeScript (Vite has first-class support) would be low-risk and improve safety as more fields/logic are added.
 - **Testing** — no automated tests exist yet. Given the API's simplicity, a small Vitest/Supertest suite for `server.js`'s validation and payload-building logic would be a high-value first addition.
 
+> 📄 **In progress:** See [`docs/CLOSE_GMAIL_INTEGRATION.md`](./docs/CLOSE_GMAIL_INTEGRATION.md) for the active planning doc on connecting Close CRM custom fields and automatic Gmail follow-up drafts, including fire-recovery branching logic.
+
 ---
 
 ## Troubleshooting
