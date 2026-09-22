@@ -86,9 +86,7 @@ function App() {
       newErrors.phone = 'Enter a valid phone number'
     }
 
-    if (!data.email.trim()) {
-      newErrors.email = 'Email is required'
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email.trim())) {
+    if (data.email.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email.trim())) {
       newErrors.email = 'Enter a valid email address'
     }
 
@@ -96,20 +94,10 @@ function App() {
       newErrors.smsConsent = 'SMS consent is required to submit this form'
     }
 
-    if (!data.addressStreet.trim()) {
-      newErrors.addressStreet = 'Street address is required'
-    }
-    if (!data.addressCity.trim()) {
-      newErrors.addressCity = 'City is required'
-    }
-    if (!data.addressState.trim()) {
-      newErrors.addressState = 'State is required'
-    } else if (!/^[A-Za-z]{2}$/.test(data.addressState.trim())) {
+    if (data.addressState.trim() && !/^[A-Za-z]{2}$/.test(data.addressState.trim())) {
       newErrors.addressState = 'Use 2-letter state code'
     }
-    if (!data.addressZip.trim()) {
-      newErrors.addressZip = 'Zip code is required'
-    } else if (!/^\d{5}(-\d{4})?$/.test(data.addressZip.trim())) {
+    if (data.addressZip.trim() && !/^\d{5}(-\d{4})?$/.test(data.addressZip.trim())) {
       newErrors.addressZip = 'Enter a valid zip code'
     }
 
@@ -348,7 +336,6 @@ function App() {
                       onChange={handleChange}
                       error={Boolean(errors.email)}
                       helperText={errors.email}
-                      required
                       fullWidth
                     />
                   </Stack>
@@ -395,7 +382,6 @@ function App() {
                     onChange={handleChange}
                     error={Boolean(errors.addressStreet)}
                     helperText={errors.addressStreet}
-                    required
                     fullWidth
                   />
                   <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2.5}>
@@ -406,7 +392,6 @@ function App() {
                       onChange={handleChange}
                       error={Boolean(errors.addressCity)}
                       helperText={errors.addressCity}
-                      required
                       fullWidth
                     />
                     <TextField
@@ -416,7 +401,6 @@ function App() {
                       onChange={handleChange}
                       error={Boolean(errors.addressState)}
                       helperText={errors.addressState}
-                      required
                       fullWidth
                     />
                     <TextField
@@ -426,7 +410,6 @@ function App() {
                       onChange={handleChange}
                       error={Boolean(errors.addressZip)}
                       helperText={errors.addressZip}
-                      required
                       fullWidth
                     />
                   </Stack>
