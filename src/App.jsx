@@ -30,7 +30,7 @@ import './App.css'
 const TEAM_MEMBERS = [
   'Nicholas Santiago',
   'George Limbrick',
-  'Willia J. Johnson',
+  'William J. Johnson',
   'Quinton Jones'
 ]
 
