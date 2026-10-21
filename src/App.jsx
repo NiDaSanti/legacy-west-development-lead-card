@@ -24,6 +24,10 @@ import NotesOutlinedIcon from '@mui/icons-material/NotesOutlined'
 import SendRoundedIcon from '@mui/icons-material/SendRounded'
 import BadgeOutlinedIcon from '@mui/icons-material/BadgeOutlined'
 import LocalFireDepartmentOutlinedIcon from '@mui/icons-material/LocalFireDepartmentOutlined'
+import VerifiedOutlinedIcon from '@mui/icons-material/VerifiedOutlined'
+import PhoneInTalkOutlinedIcon from '@mui/icons-material/PhoneInTalkOutlined'
+import AccessTimeOutlinedIcon from '@mui/icons-material/AccessTimeOutlined'
+import ConstructionOutlinedIcon from '@mui/icons-material/ConstructionOutlined'
 
 import './App.css'
 
@@ -194,17 +198,18 @@ function App() {
   )
 
   const sectionHeading = (Icon, label) => (
-    <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 2 }}>
+    <Stack direction="row" spacing={1.5} alignItems="center" sx={{ mb: 2 }}>
       <Box
         sx={{
-          width: 32,
-          height: 32,
-          borderRadius: '8px',
+          width: 36,
+          height: 36,
+          borderRadius: '10px',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          bgcolor: 'rgba(13,33,73,0.06)',
-          color: 'primary.main'
+          background: 'linear-gradient(135deg, #0d2149 0%, #4e79e1 100%)',
+          color: '#ffffff',
+          boxShadow: '0 4px 10px rgba(13,33,73,0.25)'
         }}
       >
         <Icon fontSize="small" />
@@ -216,18 +221,22 @@ function App() {
   return (
     <Box sx={{ minHeight: '100vh', bgcolor: 'background.default', display: 'flex', flexDirection: 'column' }}>
       <Box
-        className="card-header"
+        className="hero"
         sx={{
-          bgcolor: '#ffffff',
-          color: 'text.primary',
-          py: { xs: 3, sm: 4 },
-          borderBottom: '3px solid',
-          borderColor: 'secondary.main',
-          boxShadow: '0 4px 20px rgba(13,33,73,0.10)'
+          position: 'relative',
+          overflow: 'hidden',
+          background: 'linear-gradient(120deg, #081530 0%, #0d2149 45%, #3a5cb0 100%)',
+          color: '#ffffff',
+          pb: { xs: 10, sm: 12 },
+          pt: { xs: 'calc(env(safe-area-inset-top, 0px) + 24px)', sm: 'calc(env(safe-area-inset-top, 0px) + 40px)' }
         }}
       >
+        <Box className="hero-shape hero-shape-1" />
+        <Box className="hero-shape hero-shape-2" />
         <Box
           sx={{
+            position: 'relative',
+            zIndex: 1,
             width: { xs: '95%', sm: '90%', md: '85%', lg: '80%' },
             maxWidth: '1400px',
             mx: 'auto'
@@ -240,13 +249,79 @@ function App() {
             sx={{
               display: 'block',
               mx: 'auto',
-              height: { xs: 56, sm: 72 },
-              width: 'auto'
+              height: { xs: 48, sm: 60 },
+              width: 'auto',
+              mb: { xs: 3, sm: 4 },
+              filter: 'brightness(0) invert(1)'
             }}
           />
-          <Typography variant="body2" align="center" color="text.secondary" sx={{ mt: 1 }}>
-            177 E. Colorado Blvd, Suite 200, Pasadena, CA 91105 &nbsp;|&nbsp; (626) 720-3091 &nbsp;|&nbsp; CSLB #1148175
+          <Typography
+            variant="h3"
+            align="center"
+            sx={{
+              fontWeight: 800,
+              letterSpacing: '-0.02em',
+              fontSize: { xs: '1.9rem', sm: '2.6rem', md: '3rem' },
+              lineHeight: 1.15,
+              mb: 2
+            }}
+          >
+            Build the Legacy Your Property Deserves
           </Typography>
+          <Typography
+            variant="body1"
+            align="center"
+            sx={{
+              maxWidth: 640,
+              mx: 'auto',
+              color: 'rgba(255,255,255,0.82)',
+              fontSize: { xs: '0.95rem', sm: '1.05rem' },
+              mb: { xs: 4, sm: 5 }
+            }}
+          >
+            From ADUs to full rebuilds, tell us about your project and a member of our team will reach out
+            within 24 hours to map out your next steps.
+          </Typography>
+
+          <Stack
+            direction={{ xs: 'column', sm: 'row' }}
+            spacing={{ xs: 1.5, sm: 2 }}
+            justifyContent="center"
+            alignItems="stretch"
+            sx={{ maxWidth: 900, mx: 'auto' }}
+          >
+            {[
+              { icon: VerifiedOutlinedIcon, title: 'CSLB #1148175', subtitle: 'Licensed & Insured' },
+              { icon: PhoneInTalkOutlinedIcon, title: '(626) 720-3091', subtitle: 'Call Us Directly' },
+              { icon: AccessTimeOutlinedIcon, title: '24-Hour', subtitle: 'Response Guarantee' }
+            ].map(({ icon: Icon, title, subtitle }) => (
+              <Box
+                key={title}
+                sx={{
+                  flex: 1,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 1.5,
+                  bgcolor: 'rgba(255,255,255,0.08)',
+                  border: '1px solid rgba(255,255,255,0.18)',
+                  borderRadius: 2,
+                  px: 2,
+                  py: 1.5,
+                  backdropFilter: 'blur(6px)'
+                }}
+              >
+                <Icon sx={{ color: '#7a9aea' }} />
+                <Box>
+                  <Typography variant="body2" sx={{ fontWeight: 700, lineHeight: 1.2 }}>
+                    {title}
+                  </Typography>
+                  <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.72)' }}>
+                    {subtitle}
+                  </Typography>
+                </Box>
+              </Box>
+            ))}
+          </Stack>
         </Box>
       </Box>
 
@@ -255,8 +330,11 @@ function App() {
           width: { xs: '95%', sm: '90%', md: '85%', lg: '80%' },
           maxWidth: '1400px',
           mx: 'auto',
-          py: { xs: 3, sm: 5 },
-          flexGrow: 1
+          mt: { xs: -7, sm: -8 },
+          pb: { xs: 4, sm: 6 },
+          flexGrow: 1,
+          position: 'relative',
+          zIndex: 2
         }}
       >
         <Paper
@@ -265,13 +343,17 @@ function App() {
             p: { xs: 3, sm: 5 },
             border: '1px solid',
             borderColor: 'divider',
-            borderRadius: 3
+            borderRadius: 3,
+            boxShadow: '0 20px 60px rgba(13,33,73,0.18)'
           }}
         >
           <Box sx={{ mb: 4 }}>
-            <Typography variant="h5" component="h1" gutterBottom>
-              Project Information Form
-            </Typography>
+            <Stack direction="row" spacing={1.5} alignItems="center" sx={{ mb: 1 }}>
+              <ConstructionOutlinedIcon sx={{ color: 'secondary.main' }} />
+              <Typography variant="h5" component="h1" sx={{ fontWeight: 800 }}>
+                Tell Us About Your Project
+              </Typography>
+            </Stack>
             <Typography variant="body2" color="text.secondary">
               Please complete the fields below so our team can follow up regarding your property project.
             </Typography>
@@ -454,16 +536,36 @@ function App() {
                 />
               </Box>
 
-              <Button
-                type="submit"
-                variant="contained"
-                size="large"
-                disabled={status.submitting}
-                endIcon={!status.submitting && <SendRoundedIcon />}
-                sx={{ py: 1.5, alignSelf: { xs: 'stretch', sm: 'flex-start' }, px: 5 }}
-              >
-                {status.submitting ? 'Submitting...' : 'Submit'}
-              </Button>
+              <Box>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  size="large"
+                  disabled={status.submitting}
+                  endIcon={!status.submitting && <SendRoundedIcon />}
+                  className="submit-btn"
+                  sx={{
+                    py: 1.6,
+                    alignSelf: { xs: 'stretch', sm: 'flex-start' },
+                    px: 6,
+                    fontSize: '1rem',
+                    fontWeight: 700,
+                    background: 'linear-gradient(135deg, #0d2149 0%, #4e79e1 100%)',
+                    boxShadow: '0 10px 24px rgba(13,33,73,0.28)',
+                    transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+                    '&:hover': {
+                      background: 'linear-gradient(135deg, #081530 0%, #3a5cb0 100%)',
+                      boxShadow: '0 14px 30px rgba(13,33,73,0.35)',
+                      transform: 'translateY(-2px)'
+                    }
+                  }}
+                >
+                  {status.submitting ? 'Submitting...' : 'Submit My Project'}
+                </Button>
+                <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mt: 1.5 }}>
+                  No obligation — a team member will reach out within 24 hours.
+                </Typography>
+              </Box>
 
               {status.success && <Alert severity="success">Thank you — your information has been submitted successfully.</Alert>}
               {status.error && <Alert severity="error">{status.error}</Alert>}
@@ -483,6 +585,9 @@ function App() {
           borderColor: 'divider'
         }}
       >
+        <Typography variant="caption" display="block" sx={{ mb: 0.5 }}>
+          177 E. Colorado Blvd, Suite 200, Pasadena, CA 91105 &nbsp;|&nbsp; (626) 720-3091 &nbsp;|&nbsp; CSLB #1148175
+        </Typography>
         <Typography variant="caption">
           &copy; {new Date().getFullYear()} Legacy West Development. All rights reserved.
         </Typography>
