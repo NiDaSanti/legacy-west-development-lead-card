@@ -266,7 +266,7 @@ function App() {
               mb: 2
             }}
           >
-            Build the Legacy Your Property Deserves
+            Build the Property Your Legacy Deserves
           </Typography>
           <Typography
             variant="body1"
