@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useMemo } from 'react'
 import {
   Box,
   Paper,
@@ -22,7 +22,6 @@ import HomeWorkOutlinedIcon from '@mui/icons-material/HomeWorkOutlined'
 import BuildOutlinedIcon from '@mui/icons-material/BuildOutlined'
 import NotesOutlinedIcon from '@mui/icons-material/NotesOutlined'
 import SendRoundedIcon from '@mui/icons-material/SendRounded'
-import BadgeOutlinedIcon from '@mui/icons-material/BadgeOutlined'
 import LocalFireDepartmentOutlinedIcon from '@mui/icons-material/LocalFireDepartmentOutlined'
 import VerifiedOutlinedIcon from '@mui/icons-material/VerifiedOutlined'
 import PhoneInTalkOutlinedIcon from '@mui/icons-material/PhoneInTalkOutlined'
@@ -90,6 +89,14 @@ function App() {
   const [status, setStatus] = useState({ submitting: false, error: null, success: false })
   const [errors, setErrors] = useState({})
 
+  // Whether the "Submitted By" employee is already known (via QR code link
+  // or remembered from a previous visit on this device). When true, the
+  // field is hidden entirely so clients never see an internal employee
+  // selector. When false, a small, unobtrusive toggle lets a team member
+  // self-tag without it looking like part of the client-facing form.
+  const hasKnownSubmitter = Boolean(repFromQrCode || localStorage.getItem(SUBMITTED_BY_STORAGE_KEY))
+  const [showRepSelector, setShowRepSelector] = useState(false)
+
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target
     setFormData(prev => ({ ...prev, [name]: type === 'checkbox' ? checked : value }))
@@ -101,7 +108,7 @@ function App() {
   const validate = (data) => {
     const newErrors = {}
 
-    if (!data.submittedBy.trim()) {
+    if (showRepSelector && !data.submittedBy.trim()) {
       newErrors.submittedBy = 'Please select who is submitting this lead'
     }
 
@@ -387,33 +394,48 @@ function App() {
           <Box component="form" onSubmit={handleSubmit} noValidate>
             <Stack spacing={4}>
 
-              <Box>
-                {sectionHeading(BadgeOutlinedIcon, 'Submitted By')}
-                <TextField
-                  select
-                  label="Team Member"
-                  name="submittedBy"
-                  value={formData.submittedBy}
-                  onChange={handleChange}
-                  error={Boolean(errors.submittedBy)}
-                  helperText={
-                    errors.submittedBy ||
-                    (repFromQrCode ? `Auto-filled from ${repFromQrCode}'s QR code` : undefined)
-                  }
-                  required
-                  fullWidth
-                  disabled={Boolean(repFromQrCode)}
-                  sx={{ maxWidth: { sm: 360 } }}
-                >
-                  {TEAM_MEMBERS.map((member) => (
-                    <MenuItem key={member} value={member}>
-                      {member}
-                    </MenuItem>
-                  ))}
-                </TextField>
-              </Box>
-
-              <Divider />
+              {!hasKnownSubmitter && (
+                <Box sx={{ textAlign: { xs: 'left', sm: 'right' } }}>
+                  {!showRepSelector ? (
+                    <Typography
+                      component="button"
+                      type="button"
+                      onClick={() => setShowRepSelector(true)}
+                      variant="caption"
+                      sx={{
+                        background: 'none',
+                        border: 'none',
+                        p: 0,
+                        color: 'text.secondary',
+                        textDecoration: 'underline',
+                        cursor: 'pointer',
+                        fontSize: '0.75rem'
+                      }}
+                    >
+                      Legacy West team member? Tap here
+                    </Typography>
+                  ) : (
+                    <TextField
+                      select
+                      label="Team Member"
+                      name="submittedBy"
+                      value={formData.submittedBy}
+                      onChange={handleChange}
+                      error={Boolean(errors.submittedBy)}
+                      helperText={errors.submittedBy}
+                      size="small"
+                      fullWidth
+                      sx={{ maxWidth: { sm: 280 }, ml: { sm: 'auto' } }}
+                    >
+                      {TEAM_MEMBERS.map((member) => (
+                        <MenuItem key={member} value={member}>
+                          {member}
+                        </MenuItem>
+                      ))}
+                    </TextField>
+                  )}
+                </Box>
+              )}
 
               <Box>
                 {sectionHeading(PersonOutlineIcon, 'Contact Information')}
