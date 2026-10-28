@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import {
   Box,
   Paper,
@@ -40,10 +40,35 @@ const TEAM_MEMBERS = [
 
 const SUBMITTED_BY_STORAGE_KEY = 'lwd_submitted_by'
 
+// Converts a name to a URL-friendly slug for QR-code links, e.g.
+// "Nicholas Santiago" -> "nicholas-santiago"
+const slugify = (str) =>
+  str
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9\s-]/g, '')
+    .replace(/\s+/g, '-')
+
+// Reverse lookup: slug -> full team member name, used to match the
+// "?rep=" query param from a rep's personal QR code to a TEAM_MEMBERS entry.
+const REP_SLUG_MAP = TEAM_MEMBERS.reduce((map, member) => {
+  map[slugify(member)] = member
+  return map
+}, {})
+
 function App() {
 
+  // If this page was opened via a rep's personal QR code (e.g.
+  // ?rep=nicholas-santiago), auto-fill and lock the "Submitted By" field.
+  const repFromQrCode = useMemo(() => {
+    const params = new URLSearchParams(window.location.search)
+    const repParam = params.get('rep')
+    if (!repParam) return null
+    return REP_SLUG_MAP[slugify(repParam)] || null
+  }, [])
+
   const [formData, setFormData] = useState({
-    submittedBy: localStorage.getItem(SUBMITTED_BY_STORAGE_KEY) || '',
+    submittedBy: repFromQrCode || localStorage.getItem(SUBMITTED_BY_STORAGE_KEY) || '',
     name: '',
     phone: '',
     email: '',
@@ -371,9 +396,13 @@ function App() {
                   value={formData.submittedBy}
                   onChange={handleChange}
                   error={Boolean(errors.submittedBy)}
-                  helperText={errors.submittedBy}
+                  helperText={
+                    errors.submittedBy ||
+                    (repFromQrCode ? `Auto-filled from ${repFromQrCode}'s QR code` : undefined)
+                  }
                   required
                   fullWidth
+                  disabled={Boolean(repFromQrCode)}
                   sx={{ maxWidth: { sm: 360 } }}
                 >
                   {TEAM_MEMBERS.map((member) => (
