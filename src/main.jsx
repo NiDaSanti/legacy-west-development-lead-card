@@ -86,6 +86,11 @@ const theme = createTheme({
             '&.Mui-focused': {
               boxShadow: '0 0 0 3px rgba(78,121,225,0.18)'
             }
+          },
+          // Keep inputs at 16px so iOS Safari doesn't auto-zoom the page
+          // when a field is focused (zoom only triggers below 16px).
+          '& .MuiInputBase-input': {
+            fontSize: '16px'
           }
         }
       }
@@ -95,7 +100,8 @@ const theme = createTheme({
         root: {
           textTransform: 'none',
           fontWeight: 700,
-          borderRadius: 10
+          borderRadius: 10,
+          minHeight: 44
         },
         containedPrimary: {
           background: 'linear-gradient(135deg, #0d2149 0%, #1c3568 100%)',
@@ -104,6 +110,22 @@ const theme = createTheme({
             background: 'linear-gradient(135deg, #081530 0%, #14294f 100%)',
             boxShadow: '0 8px 20px rgba(13,33,73,0.32)'
           }
+        }
+      }
+    },
+    MuiRadio: {
+      styleOverrides: {
+        root: {
+          // Enlarge the tap target beyond the visual radio icon (44px min
+          // recommended touch target size for mobile accessibility).
+          padding: 9
+        }
+      }
+    },
+    MuiFormControlLabel: {
+      styleOverrides: {
+        label: {
+          fontSize: '0.95rem'
         }
       }
     },

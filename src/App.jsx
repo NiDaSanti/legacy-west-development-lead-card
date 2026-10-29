@@ -274,8 +274,8 @@ function App() {
           overflow: 'hidden',
           background: 'linear-gradient(120deg, #081530 0%, #0d2149 45%, #3a5cb0 100%)',
           color: '#ffffff',
-          pb: { xs: 10, sm: 12 },
-          pt: { xs: 'calc(env(safe-area-inset-top, 0px) + 24px)', sm: 'calc(env(safe-area-inset-top, 0px) + 40px)' }
+          pb: { xs: 7, sm: 12 },
+          pt: { xs: 'calc(env(safe-area-inset-top, 0px) + 20px)', sm: 'calc(env(safe-area-inset-top, 0px) + 40px)' }
         }}
       >
         <Box className="hero-shape hero-shape-1" />
@@ -313,9 +313,10 @@ function App() {
             sx={{
               fontWeight: 800,
               letterSpacing: '-0.02em',
-              fontSize: { xs: '1.9rem', sm: '2.6rem', md: '3rem' },
-              lineHeight: 1.15,
-              mb: 2
+              fontSize: { xs: '1.65rem', sm: '2.6rem', md: '3rem' },
+              lineHeight: 1.2,
+              mb: { xs: 1.25, sm: 2 },
+              px: { xs: 1, sm: 0 }
             }}
           >
             Build the Property Your Legacy Deserves
@@ -328,8 +329,9 @@ function App() {
               maxWidth: 640,
               mx: 'auto',
               color: 'rgba(255,255,255,0.82)',
-              fontSize: { xs: '0.95rem', sm: '1.05rem' },
-              mb: { xs: 4, sm: 5 }
+              fontSize: { xs: '0.9rem', sm: '1.05rem' },
+              mb: { xs: 3, sm: 5 },
+              px: { xs: 1, sm: 0 }
             }}
           >
             From ADUs to full rebuilds, tell us about your project and a member of our team will reach out
@@ -338,18 +340,20 @@ function App() {
 
           <Stack
             direction={{ xs: 'column', sm: 'row' }}
-            spacing={{ xs: 1.5, sm: 2 }}
+            spacing={{ xs: 1, sm: 2 }}
             justifyContent="center"
             alignItems="stretch"
-            sx={{ maxWidth: 900, mx: 'auto' }}
+            sx={{ maxWidth: 900, mx: 'auto', px: { xs: 1, sm: 0 } }}
           >
             {[
               { icon: VerifiedOutlinedIcon, title: 'CSLB #1148175', subtitle: 'Licensed & Insured' },
-              { icon: PhoneInTalkOutlinedIcon, title: '(626) 720-3091', subtitle: 'Call Us Directly' },
+              { icon: PhoneInTalkOutlinedIcon, title: '(626) 720-3091', subtitle: 'Call Us Directly', href: 'tel:+16267203091' },
               { icon: AccessTimeOutlinedIcon, title: '24-Hour', subtitle: 'Response Guarantee' }
-            ].map(({ icon: Icon, title, subtitle }) => (
+            ].map(({ icon: Icon, title, subtitle, href }) => (
               <Box
                 key={title}
+                component={href ? 'a' : 'div'}
+                href={href}
                 sx={{
                   flex: 1,
                   display: 'flex',
@@ -358,17 +362,19 @@ function App() {
                   bgcolor: 'rgba(255,255,255,0.08)',
                   border: '1px solid rgba(255,255,255,0.18)',
                   borderRadius: 2,
-                  px: 2,
-                  py: 1.5,
-                  backdropFilter: 'blur(6px)'
+                  px: { xs: 1.5, sm: 2 },
+                  py: { xs: 1.1, sm: 1.5 },
+                  backdropFilter: 'blur(6px)',
+                  textDecoration: 'none',
+                  color: 'inherit'
                 }}
               >
-                <Icon sx={{ color: '#7a9aea' }} />
+                <Icon sx={{ color: '#7a9aea', fontSize: { xs: 20, sm: 24 } }} />
                 <Box>
-                  <Typography variant="body2" sx={{ fontWeight: 700, lineHeight: 1.2 }}>
+                  <Typography variant="body2" sx={{ fontWeight: 700, lineHeight: 1.2, fontSize: { xs: '0.85rem', sm: '0.875rem' } }}>
                     {title}
                   </Typography>
-                  <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.72)' }}>
+                  <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.72)', fontSize: { xs: '0.7rem', sm: '0.75rem' } }}>
                     {subtitle}
                   </Typography>
                 </Box>
@@ -383,7 +389,7 @@ function App() {
           width: { xs: '95%', sm: '90%', md: '85%', lg: '80%' },
           maxWidth: '1400px',
           mx: 'auto',
-          mt: { xs: -7, sm: -8 },
+          mt: { xs: -5, sm: -8 },
           pb: { xs: 4, sm: 6 },
           flexGrow: 1,
           position: 'relative',
@@ -393,7 +399,7 @@ function App() {
         <Paper
           elevation={4}
           sx={{
-            p: { xs: 3, sm: 5 },
+            p: { xs: 2.5, sm: 5 },
             border: '1px solid',
             borderColor: 'divider',
             borderRadius: 3,
@@ -413,7 +419,7 @@ function App() {
           </Box>
 
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ maxWidth: { md: 880 }, mx: { md: 'auto' } }}>
-            <Stack spacing={4}>
+            <Stack spacing={{ xs: 3, sm: 4 }}>
 
               {!hasKnownSubmitter && (
                 <Box sx={{ textAlign: { xs: 'left', sm: 'right' } }}>
