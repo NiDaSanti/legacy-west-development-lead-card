@@ -49,3 +49,34 @@
 .submit-btn:active {
   transform: translateY(0) !important;
 }
+
+/* Phones/small tablets rotated to landscape have limited vertical space.
+   Shrink the hero so the form isn't pushed far below the fold. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .hero {
+    padding-top: calc(env(safe-area-inset-top, 0px) + 12px) !important;
+    padding-bottom: 48px !important;
+  }
+
+  .hero img {
+    height: 40px !important;
+    margin-bottom: 12px !important;
+  }
+
+  .hero h3 {
+    font-size: 1.5rem !important;
+    margin-bottom: 8px !important;
+  }
+
+  .hero .hero-subtitle {
+    display: none;
+  }
+}
+
+/* Tablets in landscape (iPad, etc.): give the form a touch more breathing
+   room and keep trust badges on one row without wrapping awkwardly. */
+@media (min-width: 900px) and (max-width: 1366px) and (orientation: landscape) {
+  .hero {
+    padding-bottom: 56px !important;
+  }
+}

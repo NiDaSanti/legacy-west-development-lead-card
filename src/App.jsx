@@ -214,7 +214,7 @@ function App() {
     }
   }
   const radioQuestion = (label, name) => (
-    <FormControl component="fieldset" error={Boolean(errors[name])} required>
+    <FormControl component="fieldset" error={Boolean(errors[name])} required fullWidth>
       <FormLabel component="legend">{label}</FormLabel>
       <RadioGroup
         row
@@ -227,6 +227,21 @@ function App() {
       </RadioGroup>
       {errors[name] && <FormHelperText>{errors[name]}</FormHelperText>}
     </FormControl>
+  )
+
+  // Two-column grid for yes/no question groups on tablet/landscape+ sized
+  // screens so there's less vertical scrolling and whitespace isn't wasted.
+  const questionGrid = (children) => (
+    <Box
+      sx={{
+        display: 'grid',
+        gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' },
+        columnGap: 4,
+        rowGap: 2.5
+      }}
+    >
+      {children}
+    </Box>
   )
 
   const sectionHeading = (Icon, label) => (
@@ -308,6 +323,7 @@ function App() {
           <Typography
             variant="body1"
             align="center"
+            className="hero-subtitle"
             sx={{
               maxWidth: 640,
               mx: 'auto',
@@ -384,7 +400,7 @@ function App() {
             boxShadow: '0 20px 60px rgba(13,33,73,0.18)'
           }}
         >
-          <Box sx={{ mb: 4 }}>
+          <Box sx={{ mb: 4, maxWidth: { md: 880 }, mx: { md: 'auto' } }}>
             <Stack direction="row" spacing={1.5} alignItems="center" sx={{ mb: 1 }}>
               <ConstructionOutlinedIcon sx={{ color: 'secondary.main' }} />
               <Typography variant="h5" component="h1" sx={{ fontWeight: 800 }}>
@@ -396,7 +412,7 @@ function App() {
             </Typography>
           </Box>
 
-          <Box component="form" onSubmit={handleSubmit} noValidate>
+          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ maxWidth: { md: 880 }, mx: { md: 'auto' } }}>
             <Stack spacing={4}>
 
               {!hasKnownSubmitter && (
@@ -558,23 +574,27 @@ function App() {
 
               <Box>
                 {sectionHeading(BuildOutlinedIcon, 'Project Details')}
-                <Stack spacing={2.5}>
-                  {radioQuestion('Do you want to increase the size of your old home?', 'increaseSize')}
-                  {radioQuestion('Have you started Plans and Engineering?', 'startedPlans')}
-                  {radioQuestion('Would you like to add an ADU to your property?', 'addADU')}
-                  {radioQuestion('Would you like to add a Back up Generator to your property?', 'addGenerator')}
-                </Stack>
+                {questionGrid(
+                  <>
+                    {radioQuestion('Do you want to increase the size of your old home?', 'increaseSize')}
+                    {radioQuestion('Have you started Plans and Engineering?', 'startedPlans')}
+                    {radioQuestion('Would you like to add an ADU to your property?', 'addADU')}
+                    {radioQuestion('Would you like to add a Back up Generator to your property?', 'addGenerator')}
+                  </>
+                )}
               </Box>
 
               <Divider />
 
               <Box>
                 {sectionHeading(LocalFireDepartmentOutlinedIcon, 'Altadena Fire Recovery')}
-                <Stack spacing={2.5}>
-                  {radioQuestion('Was your property affected by the Altadena fires?', 'fireAffected')}
-                  {radioQuestion('Has anyone taken the time to walk you through your rebuilding options?', 'consultedOnOptions')}
-                  {radioQuestion('Are you hoping to rebuild and restore your home in Altadena?', 'planningToRebuild')}
-                </Stack>
+                {questionGrid(
+                  <>
+                    {radioQuestion('Was your property affected by the Altadena fires?', 'fireAffected')}
+                    {radioQuestion('Has anyone taken the time to walk you through your rebuilding options?', 'consultedOnOptions')}
+                    {radioQuestion('Are you hoping to rebuild and restore your home in Altadena?', 'planningToRebuild')}
+                  </>
+                )}
               </Box>
 
               <Divider />
