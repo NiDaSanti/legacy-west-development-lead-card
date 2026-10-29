@@ -10,8 +10,11 @@
 
     <meta name="theme-color" content="#0d2149" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <meta name="description" content="Tell Legacy West Development about your property project — ADUs, rebuilds, generators, and more. We'll follow up within 24 hours." />
-    <title>Legacy West | Project Information Form</title>
+    <meta name="robots" content="index, follow" />
+    <meta name="description" content="Legacy West Development builds ADUs, home additions, fire rebuilds, and backup generator installs in Pasadena & Altadena, CA. Licensed & insured (CSLB #1148175). Tell us about your project — we'll follow up within 24 hours." />
+    <meta name="keywords" content="ADU builder Pasadena, Altadena fire rebuild, home addition contractor, backup generator installation, Legacy West Development, CSLB 1148175" />
+    <link rel="canonical" href="https://lwd-lead-card.netlify.app/" />
+    <title>Legacy West Development | ADUs, Rebuilds & Home Additions — Pasadena & Altadena, CA</title>
 
     <!-- iOS "Add to Home Screen" / standalone web app behavior -->
     <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -22,9 +25,10 @@
 
     <!-- Open Graph (iMessage, Facebook, LinkedIn, Slack, etc.) -->
     <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_US" />
     <meta property="og:site_name" content="Legacy West Development" />
-    <meta property="og:title" content="Legacy West Development | Project Information Form" />
-    <meta property="og:description" content="Tell us about your property project — ADUs, rebuilds, generators, and more. We'll follow up within 24 hours." />
+    <meta property="og:title" content="Legacy West Development | ADUs, Rebuilds & Home Additions" />
+    <meta property="og:description" content="Licensed & insured ADU, rebuild, and home addition contractor serving Pasadena & Altadena, CA. Tell us about your project — we'll follow up within 24 hours." />
     <meta property="og:image" content="https://lwd-lead-card.netlify.app/icon-512.png" />
     <meta property="og:image:width" content="512" />
     <meta property="og:image:height" content="512" />
@@ -32,8 +36,8 @@
 
     <!-- Twitter / X card -->
     <meta name="twitter:card" content="summary" />
-    <meta name="twitter:title" content="Legacy West Development | Project Information Form" />
-    <meta name="twitter:description" content="Tell us about your property project — we'll follow up within 24 hours." />
+    <meta name="twitter:title" content="Legacy West Development | ADUs, Rebuilds & Home Additions" />
+    <meta name="twitter:description" content="Licensed & insured contractor serving Pasadena & Altadena, CA. We'll follow up within 24 hours." />
     <meta name="twitter:image" content="https://lwd-lead-card.netlify.app/icon-512.png" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -41,9 +45,47 @@
     <link rel="preconnect" href="https://legacy-west-development-lead-card.onrender.com" />
     <link rel="preload" as="image" href="/lwd-logo.webp" fetchpriority="high" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+    <!-- Structured data for rich search results (Google Business/Local SEO) -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "GeneralContractor",
+        "name": "Legacy West Development",
+        "image": "https://lwd-lead-card.netlify.app/icon-512.png",
+        "url": "https://lwd-lead-card.netlify.app/",
+        "telephone": "+1-626-720-3091",
+        "priceRange": "$$",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "177 E. Colorado Blvd, Suite 200",
+          "addressLocality": "Pasadena",
+          "addressRegion": "CA",
+          "postalCode": "91105",
+          "addressCountry": "US"
+        },
+        "areaServed": ["Pasadena, CA", "Altadena, CA"],
+        "description": "Licensed & insured contractor specializing in ADUs, home additions, fire rebuilds, and backup generator installation in Pasadena and Altadena, CA.",
+        "identifier": {
+          "@type": "PropertyValue",
+          "name": "CSLB License",
+          "value": "1148175"
+        }
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>
+    <noscript>
+      <div style="font-family: sans-serif; padding: 2rem; max-width: 640px; margin: 0 auto;">
+        <h1>Legacy West Development</h1>
+        <p>
+          Licensed &amp; insured contractor serving Pasadena &amp; Altadena, CA — ADUs, home
+          additions, fire rebuilds, and backup generator installation.
+        </p>
+        <p>Please enable JavaScript to view and submit our project information form, or call us directly at (626) 720-3091.</p>
+      </div>
+    </noscript>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
