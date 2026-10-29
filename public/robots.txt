@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://lwd-lead-card.netlify.app/sitemap.xml

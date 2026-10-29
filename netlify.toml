@@ -23,6 +23,18 @@
   [headers.values]
     Cache-Control = "public, max-age=86400"
 
+# Let crawlers/browsers re-check these fairly often since they're tiny and
+# may change independently of a full redeploy.
+[[headers]]
+  for = "/robots.txt"
+  [headers.values]
+    Cache-Control = "public, max-age=3600"
+
+[[headers]]
+  for = "/sitemap.xml"
+  [headers.values]
+    Cache-Control = "public, max-age=3600"
+
 # Single-page app fallback: redirect all routes to index.html
 [[redirects]]
   from = "/*"
