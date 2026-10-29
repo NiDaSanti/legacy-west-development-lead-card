@@ -278,6 +278,11 @@ function App() {
             component="img"
             src="/lwd-logo.webp"
             alt="Legacy West Development"
+            width="220"
+            height="60"
+            fetchPriority="high"
+            loading="eager"
+            decoding="async"
             sx={{
               display: 'block',
               mx: 'auto',

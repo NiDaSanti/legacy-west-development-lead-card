@@ -5,6 +5,24 @@
 [build.environment]
   NODE_VERSION = "20"
 
+# Vite-built JS/CSS files are content-hashed, so they're safe to cache
+# aggressively — a new deploy always produces new filenames.
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Logo/icons change rarely; cache for a day and let browsers revalidate.
+[[headers]]
+  for = "/*.webp"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
+
+[[headers]]
+  for = "/*.png"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
+
 # Single-page app fallback: redirect all routes to index.html
 [[redirects]]
   from = "/*"
