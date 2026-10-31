@@ -285,7 +285,7 @@ function App() {
           <Box
             component="img"
             src="/lwd-logo.webp"
-            alt="Legacy West Development"
+            alt="Legacy West Development — ADU Builder & Fire Rebuild Contractor serving Los Angeles County"
             width="220"
             height="60"
             fetchPriority="high"
@@ -302,6 +302,7 @@ function App() {
           />
           <Typography
             variant="h3"
+            component="h1"
             align="center"
             sx={{
               fontWeight: 800,
@@ -312,7 +313,7 @@ function App() {
               px: { xs: 1, sm: 0 }
             }}
           >
-            Build the Property Your Legacy Deserves
+            ADU &amp; Fire Rebuild Specialists Serving Los Angeles County
           </Typography>
           <Typography
             variant="body1"
@@ -327,8 +328,8 @@ function App() {
               px: { xs: 1, sm: 0 }
             }}
           >
-            From ADUs to full rebuilds, tell us about your project and a member of our team will reach out
-            within 24 hours to map out your next steps.
+            From new ADU construction to full fire rebuilds, tell us about your project and a member of
+            our team will reach out within 24 hours to map out your next steps.
           </Typography>
 
           <Stack
@@ -402,8 +403,8 @@ function App() {
           <Box sx={{ mb: 4, maxWidth: { md: 880 }, mx: { md: 'auto' } }}>
             <Stack direction="row" spacing={1.5} alignItems="center" sx={{ mb: 1 }}>
               <ConstructionOutlinedIcon sx={{ color: 'secondary.main' }} />
-              <Typography variant="h5" component="h1" sx={{ fontWeight: 800 }}>
-                Tell Us About Your Project
+              <Typography variant="h5" component="h2" sx={{ fontWeight: 800 }}>
+                Tell Us About Your ADU or Rebuild Project
               </Typography>
             </Stack>
             <Typography variant="body2" color="text.secondary">
@@ -662,6 +663,9 @@ function App() {
       >
         <Typography variant="caption" display="block" sx={{ mb: 0.5 }}>
           177 E. Colorado Blvd, Suite 200, Pasadena, CA 91105 &nbsp;|&nbsp; (626) 720-3091 &nbsp;|&nbsp; CSLB #1148175
+        </Typography>
+        <Typography variant="caption" display="block" sx={{ mb: 0.5 }}>
+          Proudly serving Los Angeles County — Pasadena, Altadena, Glendale, Burbank, Arcadia & the San Gabriel Valley
         </Typography>
         <Typography variant="caption">
           &copy; {new Date().getFullYear()} Legacy West Development. All rights reserved.
