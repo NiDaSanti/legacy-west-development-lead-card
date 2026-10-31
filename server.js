@@ -78,16 +78,21 @@ app.post('/api/create-lead', createLeadLimiter, async (req, res) => {
 
   const consentTimestamp = new Date().toISOString()
 
+  // Formats a yes/no questionnaire answer for the lead description,
+  // falling back to "n/a" when blank — avoids repeating the `|| 'n/a'`
+  // pattern for every single question.
+  const answer = (value) => value || 'n/a'
+
   const questionSummary = [
     submittedBy ? `Submitted by: ${submittedBy}` : null,
     `SMS consent: given (webform checkbox, ${consentTimestamp})`,
-    `Increase size of home: ${increaseSize || 'n/a'}`,
-    `Started plans/engineering: ${startedPlans || 'n/a'}`,
-    `Add ADU: ${addADU || 'n/a'}`,
-    `Add backup generator: ${addGenerator || 'n/a'}`,
-    `Affected by Altadena fires: ${fireAffected || 'n/a'}`,
-    `Consulted on rebuilding options: ${consultedOnOptions || 'n/a'}`,
-    `Planning to rebuild in Altadena: ${planningToRebuild || 'n/a'}`,
+    `Increase size of home: ${answer(increaseSize)}`,
+    `Started plans/engineering: ${answer(startedPlans)}`,
+    `Add ADU: ${answer(addADU)}`,
+    `Add backup generator: ${answer(addGenerator)}`,
+    `Affected by Altadena fires: ${answer(fireAffected)}`,
+    `Consulted on rebuilding options: ${answer(consultedOnOptions)}`,
+    `Planning to rebuild in Altadena: ${answer(planningToRebuild)}`,
     notes ? `Notes: ${notes}` : null
   ].filter(Boolean).join('\n')
 

@@ -39,6 +39,50 @@ const TEAM_MEMBERS = [
 
 const SUBMITTED_BY_STORAGE_KEY = 'lwd_submitted_by'
 
+// Compiled once at module load instead of on every validate() call.
+const PHONE_REGEX = /^[\d\s()+-]{7,20}$/
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+const STATE_REGEX = /^[A-Za-z]{2}$/
+const ZIP_REGEX = /^\d{5}(-\d{4})?$/
+
+// All yes/no questionnaire fields, validated identically ("please select
+// yes or no"). Keeping this as a single list means adding/removing a
+// question only requires one change here instead of touching validate()
+// and the JSX in two separate places risking drift.
+const YES_NO_FIELDS = [
+  'increaseSize',
+  'startedPlans',
+  'addADU',
+  'addGenerator',
+  'fireAffected',
+  'consultedOnOptions',
+  'planningToRebuild'
+]
+
+// Single source of truth for the form's shape/defaults, used both for the
+// initial state and whenever the form resets after a successful submit —
+// previously this object was duplicated in two places and could drift out
+// of sync if a field was added to one but not the other.
+const createInitialFormData = (submittedBy = '') => ({
+  submittedBy,
+  name: '',
+  phone: '',
+  email: '',
+  smsConsent: false,
+  addressStreet: '',
+  addressCity: '',
+  addressState: '',
+  addressZip: '',
+  increaseSize: '',
+  startedPlans: '',
+  addADU: '',
+  addGenerator: '',
+  fireAffected: '',
+  consultedOnOptions: '',
+  planningToRebuild: '',
+  notes: ''
+})
+
 // Converts a name to a URL-friendly slug for QR-code links, e.g.
 // "Nicholas Santiago" -> "nicholas-santiago"
 const slugify = (str) =>
@@ -66,25 +110,9 @@ function App() {
     return REP_SLUG_MAP[slugify(repParam)] || null
   }, [])
 
-  const [formData, setFormData] = useState({
-    submittedBy: repFromQrCode || localStorage.getItem(SUBMITTED_BY_STORAGE_KEY) || '',
-    name: '',
-    phone: '',
-    email: '',
-    smsConsent: false,
-    addressStreet: '',
-    addressCity: '',
-    addressState: '',
-    addressZip: '',
-    increaseSize: '',
-    startedPlans: '',
-    addADU: '',
-    addGenerator: '',
-    fireAffected: '',
-    consultedOnOptions: '',
-    planningToRebuild: '',
-    notes: ''
-  })
+  const [formData, setFormData] = useState(() =>
+    createInitialFormData(repFromQrCode || localStorage.getItem(SUBMITTED_BY_STORAGE_KEY) || '')
+  )
 
   const [status, setStatus] = useState({ submitting: false, error: null, success: false })
   const [errors, setErrors] = useState({})
@@ -118,11 +146,11 @@ function App() {
 
     if (!data.phone.trim()) {
       newErrors.phone = 'Phone number is required'
-    } else if (!/^[\d\s()+-]{7,20}$/.test(data.phone.trim())) {
+    } else if (!PHONE_REGEX.test(data.phone.trim())) {
       newErrors.phone = 'Enter a valid phone number'
     }
 
-    if (data.email.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email.trim())) {
+    if (data.email.trim() && !EMAIL_REGEX.test(data.email.trim())) {
       newErrors.email = 'Enter a valid email address'
     }
 
@@ -130,34 +158,17 @@ function App() {
       newErrors.smsConsent = 'SMS consent is required to submit this form'
     }
 
-    if (data.addressState.trim() && !/^[A-Za-z]{2}$/.test(data.addressState.trim())) {
+    if (data.addressState.trim() && !STATE_REGEX.test(data.addressState.trim())) {
       newErrors.addressState = 'Use 2-letter state code'
     }
-    if (data.addressZip.trim() && !/^\d{5}(-\d{4})?$/.test(data.addressZip.trim())) {
+    if (data.addressZip.trim() && !ZIP_REGEX.test(data.addressZip.trim())) {
       newErrors.addressZip = 'Enter a valid zip code'
     }
 
-    if (!data.increaseSize) {
-      newErrors.increaseSize = 'Please select yes or no'
-    }
-    if (!data.startedPlans) {
-      newErrors.startedPlans = 'Please select yes or no'
-    }
-    if (!data.addADU) {
-      newErrors.addADU = 'Please select yes or no'
-    }
-    if (!data.addGenerator) {
-      newErrors.addGenerator = 'Please select yes or no'
-    }
-
-    if (!data.fireAffected) {
-      newErrors.fireAffected = 'Please select yes or no'
-    }
-    if (!data.consultedOnOptions) {
-      newErrors.consultedOnOptions = 'Please select yes or no'
-    }
-    if (!data.planningToRebuild) {
-      newErrors.planningToRebuild = 'Please select yes or no'
+    for (const field of YES_NO_FIELDS) {
+      if (!data[field]) {
+        newErrors[field] = 'Please select yes or no'
+      }
     }
 
     return newErrors
@@ -190,25 +201,7 @@ function App() {
 
       setStatus({ submitting: false, error: null, success: true })
       localStorage.setItem(SUBMITTED_BY_STORAGE_KEY, formData.submittedBy)
-      setFormData({
-        submittedBy: formData.submittedBy,
-        name: '',
-        phone: '',
-        email: '',
-        smsConsent: false,
-        addressStreet: '',
-        addressCity: '',
-        addressState: '',
-        addressZip: '',
-        increaseSize: '',
-        startedPlans: '',
-        addADU: '',
-        addGenerator: '',
-        fireAffected: '',
-        consultedOnOptions: '',
-        planningToRebuild: '',
-        notes: ''
-      })
+      setFormData(createInitialFormData(formData.submittedBy))
     } catch (err) {
       setStatus({ submitting: false, error: err.message, success: false })
     }
